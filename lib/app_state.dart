@@ -17,8 +17,8 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
     _safeInit(() {
-      _ValidarCargaCompleta =
-          prefs.getBool('ff_ValidarCargaCompleta') ?? _ValidarCargaCompleta;
+      _validarCargaCompleta =
+          prefs.getBool('ff_validarCargaCompleta') ?? _validarCargaCompleta;
     });
   }
 
@@ -29,11 +29,11 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  bool _ValidarCargaCompleta = false;
-  bool get ValidarCargaCompleta => _ValidarCargaCompleta;
-  set ValidarCargaCompleta(bool value) {
-    _ValidarCargaCompleta = value;
-    prefs.setBool('ff_ValidarCargaCompleta', value);
+  bool _validarCargaCompleta = false;
+  bool get validarCargaCompleta => _validarCargaCompleta;
+  set validarCargaCompleta(bool value) {
+    _validarCargaCompleta = value;
+    prefs.setBool('ff_validarCargaCompleta', value);
   }
 }
 

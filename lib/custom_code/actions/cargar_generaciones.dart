@@ -19,7 +19,7 @@ import 'package:file_picker/file_picker.dart';
 // Importar custom action para el manejo de las alertas
 import '/custom_code/actions/alertas.dart';
 
-Future<void> cargarGeneraciones(BuildContext context) async {
+Future<bool> cargarGeneraciones(BuildContext context) async {
   try {
     // Obtener la ruta del directorio de la base de datos
     var databasesPath = await getDatabasesPath();
@@ -66,18 +66,30 @@ Future<void> cargarGeneraciones(BuildContext context) async {
       }
       await batch.commit();
 
-      // Mostrar alerta verde
+      // Mostrar alerta verde (indicando éxito) fuera del bucle
       await mostrarAlerta(context, 'Carga exitosa', Colors.green);
+      return true; // Indicar que la carga fue exitosa
     } else {
       // Usuario canceló la selección
       await mostrarAlerta(
           context, 'No se seleccionó ningún archivo', Colors.red);
+      return false; // Indicar que la carga no fue exitosa
     }
   } catch (e) {
-    // Mostrar alerta roja
-    await mostrarAlerta(
-        context, 'Error al cargar generaciones: $e', Colors.red);
-    print('Error al cargar generaciones: $e');
+    // Mostrar alerta roja solo si no es un error de violación de clave primaria
+    if (e.toString().contains('UNIQUE constraint failed')) {
+      // Si se produce un error por violación de la clave primaria,
+      // mostrar mensaje indicando que las generaciones ya están cargadas
+      await mostrarAlerta(
+          context, 'Las generaciones ya están cargadas', Colors.green);
+      return true; // Indicar que la carga fue exitosa (ya que los datos ya están cargados)
+    } else {
+      // Mostrar alerta roja si ocurre otro tipo de error
+      await mostrarAlerta(
+          context, 'Error al cargar generaciones: $e', Colors.red);
+      print('Error al cargar generaciones: $e');
+      return false; // Indicar que la carga no fue exitosa
+    }
   }
 }
 

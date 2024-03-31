@@ -180,26 +180,14 @@ class _InsertarDatosPokemonWidgetState
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    if (FFAppState().ValidarCargaCompleta == false)
+                    if (FFAppState().validarCargaCompleta == false)
                       Expanded(
                         child: Align(
                           alignment: const AlignmentDirectional(0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              // Cargar generaciones
-                              await actions.cargarGeneraciones(
-                                context,
-                              );
-                              // Cargar tipos
-                              await actions.cargarTipos(
-                                context,
-                              );
-                              // Cargar habilidades
-                              await actions.cargarHabilidades(
-                                context,
-                              );
-                              // Cargar pokemon
-                              await actions.cargarPokemon(
+                              // Cargar Pokedex Completa
+                              await actions.cargarPokedex(
                                 context,
                               );
                             },
@@ -236,7 +224,7 @@ class _InsertarDatosPokemonWidgetState
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    FFAppState().ValidarCargaCompleta.toString(),
+                    FFAppState().validarCargaCompleta.toString(),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Readex Pro',
                           letterSpacing: 0.0,

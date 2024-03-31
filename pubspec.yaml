@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  app_state:
   auto_size_text: 3.0.0
   cached_network_image: 3.3.1
   collection: 1.18.0

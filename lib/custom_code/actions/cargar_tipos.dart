@@ -19,7 +19,7 @@ import 'package:file_picker/file_picker.dart';
 // Importar custom action para el manejo de las alertas
 import '/custom_code/actions/alertas.dart';
 
-Future<void> cargarTipos(BuildContext context) async {
+Future<bool> cargarTipos(BuildContext context) async {
   try {
     // Obtener la ruta del directorio de la base de datos
     var databasesPath = await getDatabasesPath();
@@ -39,6 +39,7 @@ Future<void> cargarTipos(BuildContext context) async {
     }
 
     await mostrarAlerta(context, 'Cargar tipos', Colors.blue);
+
     // Solicitar al usuario que seleccione un archivo CSV
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -67,15 +68,26 @@ Future<void> cargarTipos(BuildContext context) async {
 
       // Mostrar alerta verde
       await mostrarAlerta(context, 'Carga exitosa', Colors.green);
+      return true; // Indicar que la carga fue exitosa
     } else {
       // Usuario canceló la selección
       await mostrarAlerta(
           context, 'No se seleccionó ningún archivo', Colors.red);
+      return false; // Indicar que la carga no fue exitosa
     }
   } catch (e) {
-    // Mostrar alerta roja
-    await mostrarAlerta(context, 'Error al cargar tipos: $e', Colors.red);
-    print('Error al cargar tipos: $e');
+    // Mostrar alerta roja solo si no es un error de violación de clave primaria
+    if (e.toString().contains('UNIQUE constraint failed')) {
+      // Si se produce un error por violación de la clave primaria,
+      // mostrar mensaje indicando que los tipos ya están cargados
+      await mostrarAlerta(context, 'Los tipos ya están cargados', Colors.green);
+      return true; // Indicar que la carga fue exitosa (ya que los datos ya están cargados)
+    } else {
+      // Mostrar alerta roja si ocurre otro tipo de error
+      await mostrarAlerta(context, 'Error al cargar tipos: $e', Colors.red);
+      print('Error al cargar tipos: $e');
+      return false; // Indicar que la carga no fue exitosa
+    }
   }
 }
 

@@ -19,7 +19,7 @@ import 'package:file_picker/file_picker.dart';
 // Importar custom action para el manejo de las alertas
 import '/custom_code/actions/alertas.dart';
 
-Future<void> cargarPokemon(BuildContext context) async {
+Future<bool> cargarPokemon(BuildContext context) async {
   try {
     // Obtener la ruta del directorio de la base de datos
     var databasesPath = await getDatabasesPath();
@@ -28,27 +28,31 @@ Future<void> cargarPokemon(BuildContext context) async {
     // Abrir la base de datos
     Database database = await openDatabase(dbPath);
 
+    // Al ejecutar esta consulta, las restricciones de clave externa estarán activadas y
+    // se aplicarán a las operaciones de inserción, actualización y eliminación en la base de datos.
+    await database.execute('PRAGMA foreign_keys = ON;');
+
     // Verificar si la tabla existe, y si no, crearla
     bool tablaExiste = await existeTabla(database, 'pokemon');
     if (!tablaExiste) {
-      await database.execute('''CREATE TABLE "pokemon" (
-            "id" INTEGER NOT NULL,
-            "name" TEXT NOT NULL,
-            "type1" TEXT NOT NULL,
-            "type2" TEXT NOT NULL,
-            "firstability" TEXT NOT NULL,
-            "secondability" TEXT NOT NULL,
-            "weight" REAL NOT NULL,
-            "height" REAL NOT NULL,
-            "dexdescription" TEXT NOT NULL,
-            "generacion" INTEGER NOT NULL,
-            "imagen" TEXT NOT NULL,
-            FOREIGN KEY("secondability") REFERENCES "pokemon_habilidades"("ability") ON DELETE NO ACTION ON UPDATE NO ACTION,
-            FOREIGN KEY("type2") REFERENCES "pokemon_tipos"("types") ON DELETE NO ACTION ON UPDATE NO ACTION,
-            FOREIGN KEY("generacion") REFERENCES "pokemon_generacion"("gamegeneracion") ON DELETE NO ACTION ON UPDATE NO ACTION,
-            FOREIGN KEY("firstability") REFERENCES "pokemon_habilidades"("ability") ON DELETE NO ACTION ON UPDATE NO ACTION,
-            FOREIGN KEY("type1") REFERENCES "pokemon_tipos"("types") ON DELETE NO ACTION ON UPDATE NO ACTION,
-            PRIMARY KEY("id")
+      await database.execute('''CREATE TABLE pokemon (
+            id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            type1 TEXT NOT NULL,
+            type2 TEXT NOT NULL,
+            firstability TEXT NOT NULL,
+            secondability TEXT NOT NULL,
+            weight REAL NOT NULL,
+            height REAL NOT NULL,
+            dexdescription TEXT NOT NULL,
+            generacion INTEGER NOT NULL,
+            imagen TEXT NOT NULL,
+            FOREIGN KEY(secondability) REFERENCES pokemon_habilidades(ability) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            FOREIGN KEY(type2) REFERENCES pokemon_tipos(types) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            FOREIGN KEY(generacion) REFERENCES pokemon_generacion(gamegeneracion) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            FOREIGN KEY(firstability) REFERENCES pokemon_habilidades(ability) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            FOREIGN KEY(type1) REFERENCES pokemon_tipos(types) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            PRIMARY KEY(id)
           )''');
     }
 
@@ -89,15 +93,27 @@ Future<void> cargarPokemon(BuildContext context) async {
 
       // Mostrar alerta verde
       await mostrarAlerta(context, 'Carga exitosa', Colors.green);
+      return true; // Indicar que la carga fue exitosa
     } else {
       // Usuario canceló la selección
       await mostrarAlerta(
           context, 'No se seleccionó ningún archivo', Colors.red);
+      return false; // Indicar que la carga no fue exitosa
     }
   } catch (e) {
-    // Mostrar alerta roja
-    await mostrarAlerta(context, 'Error al cargar Pokemon: $e', Colors.red);
-    print('Error al cargar Pokemon: $e');
+    // Mostrar alerta roja solo si no es un error de violación de clave primaria
+    if (e.toString().contains('UNIQUE constraint failed')) {
+      // Si se produce un error por violación de la clave primaria,
+      // mostrar mensaje indicando que los pokemon ya están cargados
+      await mostrarAlerta(
+          context, 'Los pokemon ya están cargados', Colors.green);
+      return true; // Indicar que la carga fue exitosa (ya que los datos ya están cargados)
+    } else {
+      // Mostrar alerta roja si ocurre otro tipo de error
+      await mostrarAlerta(context, 'Error al cargar pokemon: $e', Colors.red);
+      print('Error al cargar pokemon: $e');
+      return false; // Indicar que la carga no fue exitosa
+    }
   }
 }
 

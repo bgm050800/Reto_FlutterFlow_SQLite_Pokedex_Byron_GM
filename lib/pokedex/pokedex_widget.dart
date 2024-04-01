@@ -124,7 +124,8 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                   color: Color(0xFF2C71B7),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(40.0, 0.0, 40.0, 0.0),
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(40.0, 0.0, 40.0, 16.0),
                   child: FutureBuilder<List<SelectPokedexDataRow>>(
                     future: SQLiteManager.instance.selectPokedexData(),
                     builder: (context, snapshot) {
@@ -158,7 +159,7 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 20.0, 0.0, 0.0),
                             child: Container(
-                              width: double.infinity,
+                              width: 400.0,
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFF3D00),
                                 borderRadius: BorderRadius.circular(10.0),
@@ -167,12 +168,24 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.circular(14.0),
                                     child: Image.network(
-                                      'https://pbs.twimg.com/media/F4caeC0X0AEYxRp?format=jpg&name=medium',
-                                      width: double.infinity,
+                                      listPokedexDataSelectPokedexDataRow
+                                          .sprite,
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
                                       height: 240.0,
                                       fit: BoxFit.fill,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Image.asset(
+                                        'assets/images/error_image.png',
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                1.0,
+                                        height: 240.0,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
                                   Column(
@@ -189,7 +202,31 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'IDDex: #${listPokedexDataSelectPokedexDataRow.id.toString()}',
+                                              'Gen: #${listPokedexDataSelectPokedexDataRow.generacion}',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 16.0, 8.0, 16.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'IDDex: #${listPokedexDataSelectPokedexDataRow.idDex}',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .titleMedium
@@ -244,6 +281,43 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                                                             'Readex Pro',
                                                         letterSpacing: 0.0,
                                                       ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 16.0, 8.0, 16.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Hab 1: ${listPokedexDataSelectPokedexDataRow.firstability}',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                'Hab 2: ${listPokedexDataSelectPokedexDataRow.secondability}',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                              ),
                                             ),
                                           ],
                                         ),

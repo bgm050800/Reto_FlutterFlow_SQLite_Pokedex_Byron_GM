@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '/backend/sqlite/init.dart';
 import 'queries/read.dart';
-import 'queries/update.dart';
 
 import 'package:sqflite/sqflite.dart';
 export 'queries/read.dart';
@@ -29,15 +28,6 @@ class SQLiteManager {
 
   /// START READ QUERY CALLS
 
-  Future<List<SelectPokemonDataRow>> selectPokemonData() =>
-      performSelectPokemonData(
-        _database,
-      );
-
-  Future<List<SelectTiposRow>> selectTipos() => performSelectTipos(
-        _database,
-      );
-
   Future<List<SelectPokedexDataRow>> selectPokedexData() =>
       performSelectPokedexData(
         _database,
@@ -46,10 +36,6 @@ class SQLiteManager {
   /// END READ QUERY CALLS
 
   /// START UPDATE QUERY CALLS
-
-  Future insertTipos() => performInsertTipos(
-        _database,
-      );
 
   /// END UPDATE QUERY CALLS
 }

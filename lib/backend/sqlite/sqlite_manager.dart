@@ -28,8 +28,16 @@ class SQLiteManager {
 
   /// START READ QUERY CALLS
 
-  Future<List<SelectPokedexDataRow>> selectPokedexData() =>
+  Future<List<SelectPokedexDataRow>> selectPokedexData({
+    int? filtroGeneracion,
+  }) =>
       performSelectPokedexData(
+        _database,
+        filtroGeneracion: filtroGeneracion,
+      );
+
+  Future<List<ListarGeneracionesRow>> listarGeneraciones() =>
+      performListarGeneraciones(
         _database,
       );
 

@@ -206,6 +206,8 @@ dynamic deserializeParam<T>(
         switch (T) {
           case SelectPokedexDataRow:
             return SelectPokedexDataRow(data);
+          case ListarGeneracionesRow:
+            return ListarGeneracionesRow(data);
           default:
             return null;
         }

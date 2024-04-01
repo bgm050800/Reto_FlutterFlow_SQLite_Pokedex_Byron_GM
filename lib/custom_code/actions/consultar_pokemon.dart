@@ -7,10 +7,19 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+// Importa la biblioteca para trabajar con bases de datos SQLite en Dart
 import 'package:sqflite/sqflite.dart';
+
+// Importa la biblioteca para manipulación de rutas de archivo y directorio
 import 'package:path/path.dart';
+
+// Importa la biblioteca para obtener el directorio de almacenamiento local en Dart
 import 'package:path_provider/path_provider.dart';
+
+// Importa la biblioteca para manejar operaciones asíncronas en Dart
 import 'dart:async';
+
+// Importar custom action para el manejo de las alertas
 import '/custom_code/actions/alertas.dart';
 
 // Funcion de prueba para consultar la informacion de la Pokedex

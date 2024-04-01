@@ -7,13 +7,28 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+// Importa la biblioteca para manejar operaciones asíncronas en Dart
 import 'dart:async';
+
+// Importa la biblioteca para codificación y decodificación de datos en formato JSON
 import 'dart:convert';
-import 'dart:io'; // Importar la clase File
+
+// Importa la clase File para trabajar con archivos en Dart
+import 'dart:io';
+
+// Importa la biblioteca CSV para leer y escribir archivos CSV
 import 'package:csv/csv.dart';
+
+// Importa la biblioteca para manipulación de rutas de archivo y directorio
 import 'package:path/path.dart';
+
+// Importa la biblioteca para trabajar con bases de datos SQLite en Dart
 import 'package:sqflite/sqflite.dart';
+
+// Importa la biblioteca para obtener el directorio de almacenamiento local en Dart
 import 'package:path_provider/path_provider.dart';
+
+// Importa la biblioteca para seleccionar archivos desde el sistema de archivos
 import 'package:file_picker/file_picker.dart';
 
 // Importar custom action para el manejo de las alertas

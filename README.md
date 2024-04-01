@@ -14,6 +14,8 @@ Curso: Programación para Dispositivos Móviles (SC-703) - Desafío FlutterFlow 
 
 4. **Pokedex.csv**: Este archivo contiene información sobre los Pokémon individuales. Cada fila representa un Pokémon y puede incluir datos como su número en la Pokédex, nombre, tipos, habilidades y otras características específicas.
 
+Todos los archivos necesarios para la aplicación se encuentran en la carpeta llamada **archivosPokedexCsv**.
+
 ---
 
 ### Fecha Límite de Entrega: Lunes 4 de abril de 2024, 6:00 PM (Hora límite)

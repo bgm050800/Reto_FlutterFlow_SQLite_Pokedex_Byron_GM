@@ -155,6 +155,27 @@ class _MenuPrincipalWidgetState extends State<MenuPrincipalWidget> {
                     ),
                   ),
                 ),
+              Expanded(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: const AlignmentDirectional(0.0, 1.0),
+                        child: Text(
+                          'Copyright © 2024 Byron González Muñoz\nReto Perusall\nProgramación para Dispositivos Móviles (SC-703)\nUniversidad Fidelitas - Primer Cuatrimestre',
+                          textAlign: TextAlign.center,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Readex Pro',
+                                    letterSpacing: 0.0,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

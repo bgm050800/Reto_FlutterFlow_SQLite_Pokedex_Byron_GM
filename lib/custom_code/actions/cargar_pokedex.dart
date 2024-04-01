@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+// Importar custom action para el manejo de las alertas
 import '/custom_code/actions/alertas.dart';
 
 Future<bool> cargarPokedex(BuildContext context) async {

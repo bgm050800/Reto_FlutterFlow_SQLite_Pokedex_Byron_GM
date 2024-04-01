@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+// Importa la biblioteca para manejar operaciones asíncronas en Dart
 import 'dart:async';
 
 Future<void> alertas(BuildContext context) async {

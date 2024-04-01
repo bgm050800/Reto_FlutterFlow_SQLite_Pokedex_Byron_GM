@@ -1,6 +1,8 @@
 import '/backend/sqlite/sqlite_manager.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'pokedex_model.dart';
 export 'pokedex_model.dart';
@@ -124,10 +126,119 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                   color: Color(0xFF2C71B7),
                 ),
                 Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Align(
+                              alignment: const AlignmentDirectional(-1.0, 0.0),
+                              child: Text(
+                                'Filtro generación:',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Readex Pro',
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 16.0, 0.0, 0.0),
+                              child: FutureBuilder<List<ListarGeneracionesRow>>(
+                                future:
+                                    SQLiteManager.instance.listarGeneraciones(),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final listaGeneracionesListarGeneracionesRowList =
+                                      snapshot.data!;
+                                  return FlutterFlowDropDown<int>(
+                                    controller: _model
+                                            .listaGeneracionesValueController ??=
+                                        FormFieldController<int>(
+                                      _model.listaGeneracionesValue ??= 1,
+                                    ),
+                                    options: List<int>.from(
+                                        listaGeneracionesListarGeneracionesRowList
+                                            .map((e) => e.gamegeneracion)
+                                            .toList()),
+                                    optionLabels:
+                                        listaGeneracionesListarGeneracionesRowList
+                                            .map((e) => e.gameversion)
+                                            .toList(),
+                                    onChanged: (val) => setState(() =>
+                                        _model.listaGeneracionesValue = val),
+                                    width: 300.0,
+                                    height: 56.0,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Readex Pro',
+                                          letterSpacing: 0.0,
+                                        ),
+                                    hintText: 'Seleccionar generación...',
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 24.0,
+                                    ),
+                                    fillColor: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    elevation: 2.0,
+                                    borderColor:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    borderWidth: 2.0,
+                                    borderRadius: 8.0,
+                                    margin: const EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 4.0, 16.0, 4.0),
+                                    hidesUnderline: true,
+                                    isOverButton: true,
+                                    isSearchable: false,
+                                    isMultiSelect: false,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(
+                  thickness: 1.0,
+                  color: Color(0xFF2C71B7),
+                ),
+                Padding(
                   padding:
                       const EdgeInsetsDirectional.fromSTEB(40.0, 0.0, 40.0, 16.0),
                   child: FutureBuilder<List<SelectPokedexDataRow>>(
-                    future: SQLiteManager.instance.selectPokedexData(),
+                    future: SQLiteManager.instance.selectPokedexData(
+                      filtroGeneracion: valueOrDefault<int>(
+                        _model.listaGeneracionesValue,
+                        1,
+                      ),
+                    ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
                       if (!snapshot.hasData) {
@@ -161,8 +272,12 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                             child: Container(
                               width: 400.0,
                               decoration: BoxDecoration(
-                                color: const Color(0xFFFF3D00),
-                                borderRadius: BorderRadius.circular(10.0),
+                                color: colorFromCssString(
+                                  listPokedexDataSelectPokedexDataRow
+                                      .type1colors,
+                                  defaultColor: const Color(0xFFFF3D00),
+                                ),
+                                borderRadius: BorderRadius.circular(14.0),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -202,6 +317,17 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
+                                              'ID Dex: #${listPokedexDataSelectPokedexDataRow.idDex}',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                            Text(
                                               'Gen: #${listPokedexDataSelectPokedexDataRow.generacion}',
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -225,62 +351,33 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              'IDDex: #${listPokedexDataSelectPokedexDataRow.idDex}',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Nombre: ',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .titleMedium
                                                       .override(
                                                         fontFamily:
                                                             'Readex Pro',
                                                         letterSpacing: 0.0,
                                                       ),
-                                            ),
-                                            Text(
-                                              'Nombre: ${listPokedexDataSelectPokedexDataRow.name}',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                                ),
+                                                Text(
+                                                  listPokedexDataSelectPokedexDataRow
+                                                      .name,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .titleMedium
                                                       .override(
                                                         fontFamily:
                                                             'Readex Pro',
                                                         letterSpacing: 0.0,
                                                       ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 16.0, 8.0, 16.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Tipo 1: ${listPokedexDataSelectPokedexDataRow.type1}',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                            ),
-                                            Text(
-                                              'Tipo 2: ${listPokedexDataSelectPokedexDataRow.type2}',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -295,29 +392,130 @@ class _PokedexWidgetState extends State<PokedexWidget> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              'Hab 1: ${listPokedexDataSelectPokedexDataRow.firstability}',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Tipo 1:',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .titleMedium
                                                       .override(
                                                         fontFamily:
                                                             'Readex Pro',
                                                         letterSpacing: 0.0,
                                                       ),
+                                                ),
+                                                Text(
+                                                  listPokedexDataSelectPokedexDataRow
+                                                      .type1,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                              ],
                                             ),
-                                            Flexible(
-                                              child: Text(
-                                                'Hab 2: ${listPokedexDataSelectPokedexDataRow.secondability}',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Readex Pro',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                              ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Tipo 2:',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  listPokedexDataSelectPokedexDataRow
+                                                      .type2,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 16.0, 8.0, 16.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Habilidad 1:',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  listPokedexDataSelectPokedexDataRow
+                                                      .firstability,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Habilidad 2:',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  listPokedexDataSelectPokedexDataRow
+                                                      .secondability,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),

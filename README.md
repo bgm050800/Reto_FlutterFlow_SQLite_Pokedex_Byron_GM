@@ -18,6 +18,6 @@ Todos los archivos necesarios para la aplicación se encuentran en la carpeta ll
 
 ---
 
-### Fecha Límite de Entrega: Lunes 4 de abril de 2024, 6:00 PM (Hora límite)
+### Fecha Límite de Entrega: Lunes 1 de abril de 2024, 6:00 PM (Hora límite)
 
 © 2024 Byron GM. Universidad Fidelitas, Primer Cuatrimestre.

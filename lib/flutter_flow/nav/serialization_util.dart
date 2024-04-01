@@ -206,6 +206,10 @@ dynamic deserializeParam<T>(
         switch (T) {
           case SelectPokemonDataRow:
             return SelectPokemonDataRow(data);
+          case SelectTiposRow:
+            return SelectTiposRow(data);
+          case SelectPokedexDataRow:
+            return SelectPokedexDataRow(data);
           default:
             return null;
         }

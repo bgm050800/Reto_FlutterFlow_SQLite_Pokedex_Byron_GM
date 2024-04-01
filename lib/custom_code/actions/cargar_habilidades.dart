@@ -23,7 +23,7 @@ Future<bool> cargarHabilidades(BuildContext context) async {
   try {
     // Obtener la ruta del directorio de la base de datos
     var databasesPath = await getDatabasesPath();
-    String dbPath = join(databasesPath, 'pokeData');
+    String dbPath = join(databasesPath, 'poke_data.db');
 
     // Abrir la base de datos
     Database database = await openDatabase(dbPath);
@@ -91,6 +91,7 @@ Future<bool> cargarHabilidades(BuildContext context) async {
   }
 }
 
+// Funcion de prueba para verificar si la tabla existe antes de insertar datos
 Future<bool> existeTabla(Database db, String tabla) async {
   var res = await db.rawQuery(
       "SELECT * FROM sqlite_master WHERE type = 'table' AND name = '$tabla'");

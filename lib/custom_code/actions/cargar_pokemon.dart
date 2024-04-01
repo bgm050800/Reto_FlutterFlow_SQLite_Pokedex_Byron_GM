@@ -23,10 +23,16 @@ Future<bool> cargarPokemon(BuildContext context) async {
   try {
     // Obtener la ruta del directorio de la base de datos
     var databasesPath = await getDatabasesPath();
-    String dbPath = join(databasesPath, 'pokeData');
+    String dbPath = join(databasesPath, 'poke_data.db');
+
+    //codigo de prueba para listar las bases de datos
+    //await listarBasesDeDatos(context);
 
     // Abrir la base de datos
     Database database = await openDatabase(dbPath);
+
+    //codigo de prueba para path de base de datos
+    //await mostrarAlerta(context, dbPath, Colors.blue);
 
     // Al ejecutar esta consulta, las restricciones de clave externa estarán activadas y
     // se aplicarán a las operaciones de inserción, actualización y eliminación en la base de datos.
@@ -117,10 +123,33 @@ Future<bool> cargarPokemon(BuildContext context) async {
   }
 }
 
+// Funcion de prueba para verificar si la tabla existe antes de insertar datos
 Future<bool> existeTabla(Database db, String tabla) async {
   var res = await db.rawQuery(
       "SELECT * FROM sqlite_master WHERE type = 'table' AND name = '$tabla'");
   return res.isNotEmpty;
+}
+
+// Funcion de prueba para obtener el listado de las bases de datos de SQLite
+Future<void> listarBasesDeDatos(BuildContext context) async {
+  // Obtener la ruta del directorio de la base de datos
+  var databasesPath = await getDatabasesPath();
+
+  // Obtener la lista de archivos en el directorio
+  var directory = Directory(databasesPath);
+  var files = await directory.list().toList();
+
+  // Filtrar solo los archivos de bases de datos
+  var databaseFiles =
+      files.where((file) => file is File && file.path.endsWith('.db'));
+
+  // Mostrar los nombres de las bases de datos en la alerta
+  String mensaje = 'Bases de datos disponibles:\n';
+  for (var file in databaseFiles) {
+    mensaje += '${file.path}\n';
+  }
+
+  await mostrarAlerta(context, mensaje, Colors.green);
 }
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the green button on the right!

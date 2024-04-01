@@ -204,8 +204,8 @@ dynamic deserializeParam<T>(
       case ParamType.SqliteRow:
         final data = json.decode(param) as Map<String, dynamic>;
         switch (T) {
-          case SelectPokemonDataRow:
-            return SelectPokemonDataRow(data);
+          case SelectPokedexDataRow:
+            return SelectPokedexDataRow(data);
           default:
             return null;
         }

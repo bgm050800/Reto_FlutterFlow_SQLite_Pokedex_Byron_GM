@@ -30,22 +30,37 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => const InsertarDatosPokemonWidget(),
+      errorBuilder: (context, state) => appStateNotifier.showSplashImage
+          ? Builder(
+              builder: (context) => Container(
+                color: Colors.transparent,
+                child: Image.asset(
+                  'assets/images/PokedexFlash.jpg',
+                  fit: BoxFit.fill,
+                ),
+              ),
+            )
+          : const MenuPrincipalWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => const InsertarDatosPokemonWidget(),
+          builder: (context, _) => appStateNotifier.showSplashImage
+              ? Builder(
+                  builder: (context) => Container(
+                    color: Colors.transparent,
+                    child: Image.asset(
+                      'assets/images/PokedexFlash.jpg',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                )
+              : const MenuPrincipalWidget(),
         ),
         FFRoute(
-          name: 'HomePage',
-          path: '/homePage',
-          builder: (context, params) => const HomePageWidget(),
-        ),
-        FFRoute(
-          name: 'insertarDatosPokemon',
-          path: '/insertarDatosPokemon',
-          builder: (context, params) => const InsertarDatosPokemonWidget(),
+          name: 'MenuPrincipal',
+          path: '/menuPrincipal',
+          builder: (context, params) => const MenuPrincipalWidget(),
         ),
         FFRoute(
           name: 'Pokedex',

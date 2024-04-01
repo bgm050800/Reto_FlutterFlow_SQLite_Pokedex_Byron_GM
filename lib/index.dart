@@ -1,5 +1,3 @@
 // Export pages
-export '/home_page/home_page_widget.dart' show HomePageWidget;
-export '/insertar_datos_pokemon/insertar_datos_pokemon_widget.dart'
-    show InsertarDatosPokemonWidget;
+export '/menu_principal/menu_principal_widget.dart' show MenuPrincipalWidget;
 export '/pokedex/pokedex_widget.dart' show PokedexWidget;

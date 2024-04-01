@@ -28,8 +28,8 @@ class SQLiteManager {
 
   /// START READ QUERY CALLS
 
-  Future<List<SelectPokemonDataRow>> selectPokemonData() =>
-      performSelectPokemonData(
+  Future<List<SelectPokedexDataRow>> selectPokedexData() =>
+      performSelectPokedexData(
         _database,
       );
 
